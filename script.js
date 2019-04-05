@@ -43,18 +43,20 @@ function getWinner() {
 }
 let player = 'X';
 function play(e) {
-    switch (player) {
-        case 'X':
-            player = 'O';
-            nextPlayer = 'X';
-        break;
-        case 'O':
-            player = 'X';
-            nextPlayer = 'O';
-        break;
-    }
+    if (e.innerHTML==='') {
+        switch (player) {
+            case 'X':
+                player = 'O';
+                nextPlayer = 'X';
+                break;
+            case 'O':
+                player = 'X';
+                nextPlayer = 'O';
+                break;
+        }
         e.innerHTML = player;
         document.getElementById('turn').innerHTML = nextPlayer + " Turn Now";
+    }
 }
 function resetBoard() {
     document.getElementById('box1').innerHTML = '';
