@@ -39,6 +39,7 @@ function GameBoard(rows,cols) {
     this.resetGame = function () {
         for (i=0;i<this.rows;i++){
             for (j=0;j<this.cols;j++){
+                this.boxes[i][j].value = '';
                 document.getElementById('box' + i + '-' + j).innerHTML = '';
                 this.isGameOver = false;
                 this.showMessage('Play')
@@ -76,18 +77,28 @@ function GameBoard(rows,cols) {
         if (!this.isGameOver) checkSecondDiagonal.call(this);
         if (!this.isGameOver) checkFirstDiagonal.call(this);
         function checkRow() {
-            let i = 1;
-            let count = 1;
-            while (((y + i) < this.cols && this.boxes[x][y + i].value === player)|| ((y-i)>=0 && this.boxes[x][y-i].value === player)) {
+            var i = 1;
+            var count = 1;
+            while ((y + i) < this.cols && this.boxes[x][y + i].value === player) {
+                i++;
+                count++;
+            }
+            i = 1;
+            while ((y-i)>=0 && this.boxes[x][y-i].value === player){
                 i++;
                 count++;
             }
             this.endGame(count);
         }
         function checkColumn() {
-            let i = 1;
-            let count = 1;
-            while (((x + i) < this.rows  && this.boxes[x + i][y].value === player) || ((x-i)>=0 && this.boxes[x-i][y].value === player)) {
+            var i = 1;
+            var count = 1;
+            while ((x + i) < this.rows  && this.boxes[x + i][y].value === player) {
+                i++;
+                count++;
+            }
+            i = 1;
+            while ((x-i)>=0 && this.boxes[x-i][y].value === player){
                 i++;
                 count++;
             }
