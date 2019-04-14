@@ -15,12 +15,16 @@ function GameBoard(rows,cols) {
     this.boxes = [];
     this.player = 'X';
     this.isGameOver = false;
+    this.index=[];
     this.showMessage = function (message) {
         document.getElementById('message').innerHTML = message;
     };
-    this.endGame = function (count) {
-        if (count>=5) {
+    this.endGame = function (index) {
+        if (index.length >=5) {
             this.isGameOver = true;
+            for (i=0;i<index.length;i++) {
+                document.getElementById('box' + index[i]).style = "background: crimson";
+            }
             this.showMessage('Congrats Winner is' + this.player);
         }
     };
@@ -41,6 +45,7 @@ function GameBoard(rows,cols) {
             for (j=0;j<this.cols;j++){
                 this.boxes[i][j].value = '';
                 document.getElementById('box' + i + '-' + j).innerHTML = '';
+                document.getElementById('box' + i + '-' + j).style.background ='';
                 this.isGameOver = false;
                 this.showMessage('Play')
             }
@@ -72,75 +77,82 @@ function GameBoard(rows,cols) {
          }
     };
     this.checkWinner = function (x,y,player) {
-        if (!this.isGameOver) checkRow.call(this);
-        if (!this.isGameOver) checkColumn.call(this);
-        if (!this.isGameOver) checkSecondDiagonal.call(this);
-        if (!this.isGameOver) checkFirstDiagonal.call(this);
+        checkRow.call(this);
+        checkColumn.call(this);
+        checkSecondDiagonal.call(this);
+        checkFirstDiagonal.call(this);
+        this.endGame(this.index);
         function checkRow() {
             var i = 1;
             var count = 1;
+            var rowIndex = [x+'-'+y];
             while ((y + i) < this.cols && this.boxes[x][y + i].value === player) {
+                rowIndex.push(x+'-'+(y+i));
                 i++;
                 count++;
             }
             i = 1;
             while ((y-i)>=0 && this.boxes[x][y-i].value === player){
+                rowIndex.push(x+'-'+(y-i));
                 i++;
                 count++;
             }
-            this.endGame(count);
+            if (count>=5) this.index = this.index.concat(rowIndex);
         }
         function checkColumn() {
             var i = 1;
             var count = 1;
+            var columnIndex = [x+'-'+y];
             while ((x + i) < this.rows  && this.boxes[x + i][y].value === player) {
+                columnIndex.push(''+(x+i)+'-'+y);
                 i++;
                 count++;
             }
             i = 1;
             while ((x-i)>=0 && this.boxes[x-i][y].value === player){
+                columnIndex.push(''+(x-i)+'-'+y);
                 i++;
                 count++;
             }
-            this.endGame(count);
+            if (count>=5) this.index = this.index.concat(columnIndex);
         }
 
         function checkFirstDiagonal() {
             var count = 1;
             var i = 1;
             var j = 1;
-            while ((y + i < this.cols) && (x + i < this.rows) && this.boxes[x + i][y + j].value === player) {
+            var firstDiagonalIndex = [x+'-'+y];
+            while ((y + i < this.cols) && (x + i < this.rows) && this.boxes[x + i][y + i].value === player) {
+                firstDiagonalIndex.push(''+(x+i)+'-'+(y+i));
                 count++;
                 i++;
-                j++;
             }
              i = 1;
-             j = 1;
-            while ((x - i >= 0) && (y - j >= 0) && this.boxes[x - i][y - j].value === player) {
+            while ((x - i >= 0) && (y - j >= 0) && this.boxes[x - i][y - i].value === player) {
+                firstDiagonalIndex.push(''+(x-i)+'-'+(y-i));
                 count++;
                 i++;
-                j++;
+
             }
-            this.endGame(count);
+            if (count>=5) this.index = this.index.concat(firstDiagonalIndex);
         }
 
         function checkSecondDiagonal() {
             var count = 1;
             var i = 1;
-            var j = 1;
-            while ((y + j < this.cols) && (x - i >= 0) && this.boxes[x - i][y + j].value === player) {
+            var secondDiagonalIndex = [x+'-'+y];
+            while ((y + i < this.cols) && (x - i >= 0) && this.boxes[x - i][y + i].value === player) {
+                secondDiagonalIndex.push(''+(x-i)+'-'+(y+i));
                 count++;
                 i++;
-                j++;
             }
             i = 1;
-            j = 1;
-            while ((y - j >= 0) && (x + i < this.rows) && this.boxes[x + i][y - j].value === player) {
+            while ((y - i >= 0) && (x + i < this.rows) && this.boxes[x + i][y - i].value === player) {
+                secondDiagonalIndex.push(''+(x+i)+'-'+(y-i));
                 count++;
                 i++;
-                j++;
             }
-            this.endGame(count);
+            if (count>=5) this.index = this.index.concat(secondDiagonalIndex);
         }
 
     }
