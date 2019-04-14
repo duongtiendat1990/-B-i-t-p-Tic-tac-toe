@@ -44,6 +44,7 @@ function GameBoard(rows,cols) {
         for (i=0;i<this.rows;i++){
             for (j=0;j<this.cols;j++){
                 this.boxes[i][j].value = '';
+                this.index =[];
                 document.getElementById('box' + i + '-' + j).innerHTML = '';
                 document.getElementById('box' + i + '-' + j).style.background ='';
                 this.isGameOver = false;
@@ -120,7 +121,6 @@ function GameBoard(rows,cols) {
         function checkFirstDiagonal() {
             var count = 1;
             var i = 1;
-            var j = 1;
             var firstDiagonalIndex = [x+'-'+y];
             while ((y + i < this.cols) && (x + i < this.rows) && this.boxes[x + i][y + i].value === player) {
                 firstDiagonalIndex.push(''+(x+i)+'-'+(y+i));
