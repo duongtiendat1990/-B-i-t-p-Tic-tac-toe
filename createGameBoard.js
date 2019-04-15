@@ -44,13 +44,13 @@ function GameBoard(rows,cols) {
         for (i=0;i<this.rows;i++){
             for (j=0;j<this.cols;j++){
                 this.boxes[i][j].value = '';
-                this.index =[];
                 document.getElementById('box' + i + '-' + j).innerHTML = '';
                 document.getElementById('box' + i + '-' + j).style.background ='';
-                this.isGameOver = false;
-                this.showMessage('Play')
             }
         }
+        this.index =[];
+        this.isGameOver = false;
+        this.showMessage('Play');
     };
     this.play=function (x,y,e) {
          if (e.innerHTML===''&& !this.isGameOver) {
